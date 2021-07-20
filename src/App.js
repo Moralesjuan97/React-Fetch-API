@@ -26,6 +26,7 @@ export const App = () => {
   const deleteList = () => {
     fetch("https://assets.breatheco.de/apis/fake/todos/user/juanm", {
       method: "DELETE",
+      body: JSON.stringify([]),
       headers: {
         "content-type": "application/json",
       },
@@ -34,7 +35,7 @@ export const App = () => {
         console.log(response);
       })
       .then((data) => {
-        console.log(data);
+        setList([]);
       })
       .catch((err) => {
         console.log(err);
@@ -73,10 +74,13 @@ export const App = () => {
       headers: {
         "content-type": "application/json",
       },
-      body: JSON.stringify([{ label: "sample task", done: false }]),
+      body: JSON.stringify([{ label: "", done: false }]),
     })
       .then((response) => {
         console.log(response);
+      })
+      .then((data) => {
+        setList([{ label: "create tasks like this one!", done: false }]);
       })
       .catch((err) => {
         console.log(err);
@@ -113,15 +117,15 @@ export const App = () => {
           ))}
         </ul>
       ) : (
-        <p>No new taks</p>
+        <div>
+          <p>No new tasks</p>
+          <button type="submit" onClick={createList}>
+            Create list
+          </button>
+        </div>
       )}
       <p> {list.length} to be completed</p>
-      <button type="submit" onClick={deleteList}>
-        Delete All
-      </button>
-      <button type="submit" onClick={createList}>
-        Create list
-      </button>
+      <button onClick={deleteList}>Delete All</button>
     </div>
   );
 };
